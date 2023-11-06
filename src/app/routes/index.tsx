@@ -1,13 +1,20 @@
-import { ReactNode } from 'react';
+import { FallbackComponent } from 'app/components/fallback-component/fallback-component';
+import { ReactNode, Suspense, lazy } from 'react';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
+
+const Counter = lazy(() => import('app/pages/counter/counter'));
 
 const router = createBrowserRouter([
     {
         path: '/',
-        element: <div style={{ color: 'white' }}>Base Page</div>,
+        element: <Counter />,
     },
 ]);
 
 export default function Routes(): ReactNode {
-    return <RouterProvider router={router} />;
+    return (
+        <Suspense fallback={<FallbackComponent />}>
+            <RouterProvider router={router} />
+        </Suspense>
+    );
 }
