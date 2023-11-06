@@ -2,4 +2,4 @@ export type CounterState = {
     count: number;
 }
 
-export type CounterAction = { type: 'increment' } | { type: 'decrement' }
+export type CounterAction = { type: 'increment' } | { type: 'decrement' } | { type: 'reset' }

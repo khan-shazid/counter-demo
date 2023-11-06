@@ -3,6 +3,8 @@ import { useCallback, useReducer } from 'react';
 import Button from 'app/components/button/button';
 import { CounterAction, CounterState } from 'app/types/counter-reducer';
 
+const INITIAL_STATE: CounterState = { count: 0 };
+
 function reducer(state: CounterState, action: CounterAction) {
     switch (action.type) {
         case 'increment': {
@@ -15,11 +17,14 @@ function reducer(state: CounterState, action: CounterAction) {
                 count: state.count - 1,
             };
         }
+        case 'reset': {
+            return INITIAL_STATE;
+        }
     }
 }
 
 export default function Counter() {
-    const [{ count }, dispatch] = useReducer(reducer, { count: 0 });
+    const [{ count }, dispatch] = useReducer(reducer, INITIAL_STATE);
 
     const increment = useCallback(() => {
         dispatch({ type: 'increment' });
@@ -29,9 +34,13 @@ export default function Counter() {
         dispatch({ type: 'decrement' });
     }, [dispatch]);
 
+    const reset = useCallback(() => {
+        dispatch({ type: 'reset' });
+    }, [dispatch]);
+
     return (
-        <div className="h-full flex justify-center items-center">
-            <div className="w-[300px] h-[100px] bg-white flex justify-center items-center gap-5">
+        <div className="h-full flex flex-col gap-4 justify-center items-center">
+            <div className="w-[300px] h-[100px] bg-white flex justify-center items-center gap-4">
                 <Button category="secondary" onClick={increment} data-testid="btn-increment">
                     +
                 </Button>
@@ -42,6 +51,9 @@ export default function Counter() {
                     -
                 </Button>
             </div>
+            <Button onClick={reset} data-testid="btn-reset">
+                Reset
+            </Button>
         </div>
     );
 }

@@ -20,6 +20,7 @@ describe('Counter Test Suite', () => {
         const { getByTestId } = renderComponent();
         const btnIncrement = getByTestId('btn-increment');
         const btnDecrement = getByTestId('btn-decrement');
+        
         fireEvent.click(btnIncrement); // 1
         fireEvent.click(btnIncrement); // 2
         fireEvent.click(btnIncrement); // 3
@@ -30,9 +31,28 @@ describe('Counter Test Suite', () => {
         expect(getByTestId('counter-value')).toHaveTextContent('4');
     });
 
-    it('Test 03 - Counter app negative value does not appear', async () => {
+    it('Test 03 - Counter app reset works correctly', async () => {
+        const { getByTestId } = renderComponent();
+        const btnIncrement = getByTestId('btn-increment');
+        const btnDecrement = getByTestId('btn-decrement');
+        const btnReset = getByTestId('btn-reset');
+        
+        fireEvent.click(btnIncrement);
+        fireEvent.click(btnIncrement);
+        fireEvent.click(btnIncrement);
+        fireEvent.click(btnIncrement);
+        fireEvent.click(btnIncrement);
+        fireEvent.click(btnDecrement);
+        
+        fireEvent.click(btnReset);
+        
+        expect(getByTestId('counter-value')).toHaveTextContent('0');
+    });
+
+    it('Test 04 - Counter app negative value does not appear', async () => {
         const { getByTestId } = renderComponent();
         const btnDecrement = getByTestId('btn-decrement');
+        
         fireEvent.click(btnDecrement);
         fireEvent.click(btnDecrement);
         fireEvent.click(btnDecrement);
